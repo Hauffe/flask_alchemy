@@ -11,7 +11,6 @@ def create_app(test_config=None):
     # create and configure the app
     # $set FLASK_APP=flaskr
     # $set FLASK_ENV=development
-    # $flask init-db
     # $flask run
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
