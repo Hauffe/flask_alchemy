@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edit "{{ product['name'] }}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="name">Nome</label>
+    <input name="name" id="name" value="{{ request.form['name'] or product['name']}}" required>
+    <label for="quantity">Quantidade</label>
+    <input name="quantity" id="quantity" value="{{ request.form['quantity'] or product['quantity']}}" required>
+    <label for="brand">Marca</label>
+    <input name="brand" id="brand" value="{{ request.form['brand'] or product['brand']}}" required>
+    <label for="validity">Validade</label>
+    <input type="date" name="validity" value="{{ request.form['validity'] or product['validity']}}" id="validity" required>
+    <input type="submit" value="Save">
+  </form>
+  <hr>
+    <form action="{{ url_for('routes.delete', id=product['id']) }}" method="post">
+        <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+    </form>
+{% endblock %}

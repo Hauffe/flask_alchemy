@@ -15,10 +15,7 @@
           <div class="about">Quantity: {{ product['quantity'] }}</div>
           <div class="about">Validade: {{ product['validity'] }}</div>
         </div>
-          <a class="action" href="">Editar</a>
-            <form action="{{ url_for('routes.delete', id=product['id']) }}" method="post">
-                <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
-            </form>
+          <a class="action" href="{{ url_for('routes.update', id=product['id']) }}">Editar</a>
       </header>
     </product>
     {% if not loop.last %}

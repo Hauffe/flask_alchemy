@@ -80,3 +80,34 @@ def delete(id):
     Product.query.filter(Product.id == id).delete()
     db.session.commit()
     return redirect(url_for('routes.index'))
+
+
+@bp.route('/<int:id>/update', methods=('GET', 'POST'))
+def update(id):
+    product = get_product(id)
+
+    if request.method == 'POST':
+        name = request.form['name']
+        quantity = request.form['quantity']
+        brand = request.form['brand']
+        validity = request.form['validity']
+        error = None
+        format = "%Y-%m-%d"
+        existing_product = Product.query.filter(Product.name == name or Product.brand == brand).first()
+
+        if not name or not validity:
+            error = 'Name and validity is required.'
+        else:
+            validity = datetime.strptime(validity, format)
+
+        if error is not None:
+            flash(error)
+        else:
+            product.name = name
+            product.quantity = quantity
+            product.brand = brand
+            product.validity = validity
+            db.session.commit()
+            return redirect(url_for('routes.index'))
+
+    return render_template('market/update.html', product=product)
