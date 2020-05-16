@@ -14,24 +14,6 @@ def index():
     return render_template('market/index.html', products=Product.query.all())
 
 
-@bp.route('/populate', methods=['GET'])
-def create_product():
-    name = 'name'
-    brand = 'brand'
-    if name and brand:
-        existing_product = Product.query.filter(Product.name == name or Product.brand == brand).first()
-        if existing_product:
-            return make_response(f'{name} ({brand}) already created!')
-        new_product = Product(name=name,
-                              quantity=10,
-                              brand=brand,
-                              validity=dt.now())  # Create an instance of the User class
-        db.session.add(new_product)  # Adds new User record to database
-        db.session.commit()  # Commits all changes
-        print(Product.query.all())
-    return make_response(f'{name} ({brand}) new created!')
-
-
 @bp.route('/create', methods=('GET', 'POST'))
 def create():
     if request.method == 'POST':
