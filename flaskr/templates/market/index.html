@@ -2,24 +2,28 @@
 
 {% block header %}
   <h1>{% block title %}Compras{% endblock %}</h1>
-    <a class="action" href="{{ url_for('routes.create') }}">Novo</a>
+    {% if g.user %}
+        <a class="action" href="{{ url_for('routes.create') }}">Novo</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
-  {% for product in products %}
-    <product class="product">
-      <header>
-        <div>
-          <h1>{{ product['name'] }}</h1>
-          <div class="about">by {{ product['brand'] }}</div>
-          <div class="about">Quantity: {{ product['quantity'] }}</div>
-          <div class="about">Validade: {{ product['validity'] }}</div>
-        </div>
-          <a class="action" href="{{ url_for('routes.update', id=product['id']) }}">Editar</a>
-      </header>
-    </product>
-    {% if not loop.last %}
-      <hr>
+    {% if g.user %}
+      {% for product in products %}
+        <product class="product">
+          <header>
+            <div>
+              <h1>{{ product['name'] }}</h1>
+              <div class="about">by {{ product['brand'] }}</div>
+              <div class="about">Quantity: {{ product['quantity'] }}</div>
+              <div class="about">Validade: {{ product['validity'] }}</div>
+            </div>
+              <a class="action" href="{{ url_for('routes.update', id=product['id']) }}">Editar</a>
+          </header>
+        </product>
+        {% if not loop.last %}
+          <hr>
+        {% endif %}
+      {% endfor %}
     {% endif %}
-  {% endfor %}
 {% endblock %}
