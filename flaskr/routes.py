@@ -3,18 +3,21 @@ from flask import (
 )
 
 from datetime import datetime as dt
-from .models import db, Product
+from .models import db, Product, User
+from flaskr.auth import login_required
 from datetime import datetime
 
 bp = Blueprint('routes', __name__, url_prefix='/products')
 
 
 @bp.route('/')
+@login_required
 def index():
     return render_template('market/index.html', products=Product.query.all())
 
 
 @bp.route('/create', methods=('GET', 'POST'))
+@login_required
 def create():
     if request.method == 'POST':
         name = request.form['name']
@@ -57,6 +60,7 @@ def get_product(id):
 
 
 @bp.route('/<int:id>/delete', methods=('POST',))
+@login_required
 def delete(id):
     get_product(id)
     Product.query.filter(Product.id == id).delete()
@@ -65,6 +69,7 @@ def delete(id):
 
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
+@login_required
 def update(id):
     product = get_product(id)
 
